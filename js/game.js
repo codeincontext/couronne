@@ -13,7 +13,26 @@ var height = 500;
 
 var balls = new Array();
 for (i = 0; i < 10; i++){
-  balls[i] = new Ball(50+Math.ceil(Math.random()*400),50+Math.ceil(Math.random()*400));
+  var ballX;
+  var ballY;
+  var overlap;
+  do{
+    overlap = false;
+    ballX = 50+Math.ceil(Math.random()*400);
+    ballY = 50+Math.ceil(Math.random()*400);
+
+    $.each(balls, function(){
+      if (dist(this.x, this.y, ballX, ballY) < 40){
+        overlap = true;
+      }
+    });
+    if (dist(cue.x, cue.y, ballX, ballY) < 40){
+      overlap = true;
+    }
+
+  }while(overlap==true);
+
+  balls[i] = new Ball(ballX, ballY);
 }
 
 // balls getting stuck on walls
