@@ -12,7 +12,9 @@ var width = 500;
 var height = 500;
 
 var balls = new Array();
-balls[0] = new Ball(200,200);
+for (i = 0; i < 10; i++){
+  balls[i] = new Ball(50+Math.ceil(Math.random()*400),50+Math.ceil(Math.random()*400));
+}
 
 // balls getting stuck on walls
 
@@ -23,9 +25,16 @@ function init(){
 function tick(){
   draw();
   cue.move();
-  ball.move();
-  
-  checkCollision(cue, ball);
+  $.each(balls, function(){
+    // console.log(this)
+    var ball = this;
+    ball.move();
+    checkCollision(cue, ball);
+    
+    $.each(balls, function(){
+      if (this != ball) checkCollision(this, ball);
+    });
+  });
 }
 function draw(){
   context.clearRect(0,0, width,height);
@@ -42,12 +51,14 @@ function draw(){
     context.closePath();
   }
 
-  context.beginPath();
-  context.fillStyle="#00ff00";
-  context.arc(ball.x,ball.y,20,0,Math.PI*2,true);
-  context.closePath();
-  context.fill();
-
+  $.each(balls, function(){
+    ball = this
+    context.beginPath();
+    context.fillStyle="#00ff00";
+    context.arc(ball.x,ball.y,20,0,Math.PI*2,true);
+    context.closePath();
+    context.fill();
+  });
 
   context.beginPath();
   context.fillStyle="#0000ff";
