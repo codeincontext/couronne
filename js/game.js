@@ -69,7 +69,7 @@ function draw(){
 function dist(x, y, X, Y){
   x_diff = Math.pow( (x-X), 2 );
   y_diff = Math.pow( (y-Y), 2 );
-  dist1 = Math.sqrt( x_diff + x_diff );
+  dist1 = Math.sqrt( x_diff + y_diff );
   if (dist1<0) {dist1 = -dist1;}
   return dist1;
 }
