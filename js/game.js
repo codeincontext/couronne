@@ -1,3 +1,5 @@
+var cue = new Cue(100,100);
+
 var context;
 var mx;
 var my;
@@ -6,29 +8,22 @@ var shooting = false;
 var maxCuePull = 125;
 var cueSpeedMultiplier = 0.05;
 
-function Cue (x, y) {
-  this.x = x;
-  this.y = y;
-  this.vx = 0;
-  this.vy = 0;
-  this.move = false;
-  this.checkCollision = false;
-}
-var cue = new Cue(100,100);
+var width = 500;
+var height = 500;
+
+// var balls = new Array();
+// balls[0] = new Ball; 
 
 function init(){
-  context= myCanvas.getContext('2d');
+  context = myCanvas.getContext('2d');
   setInterval(tick,10);
 }
 function tick(){
   draw();
-  if( cue.x<50 || cue.x>250) cue.vx=-cue.vx;
-  if( cue.y<50 || cue.y>250) cue.vy=-cue.vy;
-  cue.x+=cue.vx;
-  cue.y+=cue.vy;
+  cue.move();
 }
 function draw(){
-  context.clearRect(0,0, 500,500);
+  context.clearRect(0,0, width,height);
 
   if (shooting) {
     context.strokeStyle = '#f00';
@@ -55,26 +50,7 @@ function dist(x, y, X, Y){
   if (dist1<0) {dist1 = -dist1;}
   return dist1;
 }
-function calculateCuePull(){
-	// dx and dy are the x and y components of the cue vector
-	var distX = mx - cue.x;
-	var distY = my - cue.y;
 
-	// h is the distance of the cue pull
-	var h = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-
-	// If the cue is being pulled further than the maxCuePull
-	if (h>maxCuePull){
-		// scaleMultiplier is the amount that the x and y coordinates must scale down by to make the pull equal the maxCuePull
-		var scaleMultiplier = maxCuePull/h;
-		// Scale the x and y components of the pull down
-		distX = distX*scaleMultiplier;
-		distY = distY*scaleMultiplier;
-	}
-
-	mx = (cue.x+distX);
-	my = (cue.y+distY);
-}
 $('canvas').mousedown(function(e){
   mx = e.pageX - offset.left
   my = e.pageY - offset.top
