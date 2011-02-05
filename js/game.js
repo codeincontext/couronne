@@ -11,8 +11,10 @@ var cueSpeedMultiplier = 0.05;
 var width = 500;
 var height = 500;
 
-// var balls = new Array();
-// balls[0] = new Ball; 
+var balls = new Array();
+balls[0] = new Ball(200,200);
+
+// balls getting stuck on walls
 
 function init(){
   context = myCanvas.getContext('2d');
@@ -21,6 +23,9 @@ function init(){
 function tick(){
   draw();
   cue.move();
+  ball.move();
+  
+  checkCollision(cue, ball);
 }
 function draw(){
   context.clearRect(0,0, width,height);
@@ -36,6 +41,13 @@ function draw(){
     context.stroke();
     context.closePath();
   }
+
+  context.beginPath();
+  context.fillStyle="#00ff00";
+  context.arc(ball.x,ball.y,20,0,Math.PI*2,true);
+  context.closePath();
+  context.fill();
+
 
   context.beginPath();
   context.fillStyle="#0000ff";
