@@ -6,7 +6,7 @@ var my;
 var offset = $('canvas').offset();
 var shooting = false;
 var maxCuePull = 125;
-var cueSpeedMultiplier = 0.05;
+var cueSpeedMultiplier = 0.08;
 
 var width = 500;
 var height = 500;
