@@ -11,6 +11,12 @@ var cueSpeedMultiplier = 0.05;
 var width = 500;
 var height = 500;
 
+var pits = new Array();
+pits[0] = new Pit(75,75)
+pits[1] = new Pit(width-75, 75)
+pits[2] = new Pit(75, height-75)
+pits[3] = new Pit(width-75, height-75)
+
 var balls = new Array();
 for (i = 0; i < 10; i++){
   var ballX;
@@ -45,18 +51,39 @@ function tick(){
   draw();
   cue.move();
   $.each(balls, function(){
-    // console.log(this)
     var ball = this;
     ball.move();
     checkCollision(cue, ball);
     
+    $.each(pits, function(){
+      if (pitDeath(this, ball)) {
+        console.log('pit');
+        var i = balls.indexOf(ball);
+        if(i != -1) balls.splice(i, 1);
+      };
+    });
     $.each(balls, function(){
       if (this != ball) checkCollision(this, ball);
     });
   });
+  $.each(pits, function(){
+    if (pitDeath(this, cue)) {
+      console.log('pit');
+      cue = null;
+    };
+  });
 }
 function draw(){
   context.clearRect(0,0, width,height);
+
+  $.each(pits, function(){
+    pit = this
+    context.beginPath();
+    context.fillStyle="#000";
+    context.arc(pit.x,pit.y,pit.radius,0,Math.PI*2,true);
+    context.closePath();
+    context.fill();
+  });
 
   if (shooting) {
     context.strokeStyle = '#f00';
@@ -114,8 +141,8 @@ $('canvas').mouseup(function(e){
   shooting=false;
 });
 $('canvas').mousemove(function(e){
-  mx = e.pageX - offset.left
-  my = e.pageY - offset.top
+  mx = e.pageX - offset.left - 10
+  my = e.pageY - offset.top - 10
   calculateCuePull();
 });
 
