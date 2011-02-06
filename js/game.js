@@ -30,12 +30,11 @@ function tick(){
   cue.move();
   $.each(balls, function(){
     var ball = this;
-    ball.move();
+    moveBall(ball);
     checkCollision(cue, ball);
     
     $.each(pits, function(){
       if (pitDeath(this, ball)) {
-        console.log('pit');
         var i = balls.indexOf(ball);
         if(i != -1) balls.splice(i, 1);
       };
@@ -46,7 +45,6 @@ function tick(){
   });
   $.each(pits, function(){
     if (pitDeath(this, cue)) {
-      console.log('pit');
       cue = null;
     };
   });
@@ -55,7 +53,7 @@ function draw(){
   context.clearRect(0,0, width,height);
 
   $.each(pits, function(){
-    pit = this
+    pit = this;
     context.beginPath();
     context.fillStyle="#000";
     context.arc(pit.x,pit.y,pit.radius,0,Math.PI*2,true);
@@ -76,7 +74,7 @@ function draw(){
   }
 
   $.each(balls, function(){
-    ball = this
+    ball = this;
     context.beginPath();
     context.fillStyle="#00ff00";
     context.arc(ball.x,ball.y,20,0,Math.PI*2,true);

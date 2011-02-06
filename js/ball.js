@@ -4,18 +4,18 @@ function Ball (x, y) {
   this.vx = 0;
   this.vy = 0;
   this.move=move;
-  function move(){
-    friction = 0.99
-    this.vx *= friction;
-    this.vy *= friction;
-    if (this.vy < 0.1 && this.vy > -0.1 && this.vx < 0.1 && this.vx > -0.1) {this.vx = 0; this.vy = 0;}
-    // displace the ball
-    if( this.x<20 || this.x>width-20) this.vx=-this.vx;
-    if( this.y<20 || this.y>height-20) this.vy=-this.vy;
-    this.x+=this.vx;
-    this.y+=this.vy;
-  };
 }
+function moveBall(ball){
+  friction = 0.99
+  ball.vx *= friction;
+  ball.vy *= friction;
+  if (ball.vy < 0.1 && ball.vy > -0.1 && ball.vx < 0.1 && ball.vx > -0.1) {ball.vx = 0; ball.vy = 0;}
+  // displace the ball
+  if( ball.x<20 || ball.x>width-20) ball.vx=-ball.vx;
+  if( ball.y<20 || ball.y>height-20) ball.vy=-ball.vy;
+  ball.x+=ball.vx;
+  ball.y+=ball.vy;
+};
 function checkCollision(ball1, ball2){
   var r = 20;
   var dy = ball1.y - ball2.y;
