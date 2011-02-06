@@ -18,34 +18,12 @@ pits[2] = new Pit(75, height-75)
 pits[3] = new Pit(width-75, height-75)
 
 var balls = new Array();
-for (i = 0; i < 10; i++){
-  var ballX;
-  var ballY;
-  var overlap;
-  do{
-    overlap = false;
-    ballX = 50+Math.ceil(Math.random()*400);
-    ballY = 50+Math.ceil(Math.random()*400);
 
-    $.each(balls, function(){
-      if (dist(this.x, this.y, ballX, ballY) < 40){
-        overlap = true;
-      }
-    });
-    if (dist(cue.x, cue.y, ballX, ballY) < 40){
-      overlap = true;
-    }
-
-  }while(overlap==true);
-
-  balls[i] = new Ball(ballX, ballY);
-}
 
 // balls getting stuck on walls
 
 function init(){
   context = myCanvas.getContext('2d');
-  setInterval(tick,10);
 }
 function tick(){
   draw();
