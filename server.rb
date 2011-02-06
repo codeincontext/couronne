@@ -3,6 +3,8 @@ require 'eventmachine'
 require 'em-websocket'
 require 'json'
 
+width = 500
+height = 500
 class Ball
   attr_accessor :x, :y, :vx, :vy
  
@@ -28,6 +30,21 @@ class Cue
     self.y = 200
   end
 end
+
+class Pit
+  attr_accessor :x, :y
+  def initialize(x,y)
+    self.x = x
+    self.y = y
+  end
+end
+
+pits = []
+pits[0] = Pit.new(75,75)
+pits[1] = Pit.new(width-75, 75)
+pits[2] = Pit.new(75, height-75)
+pits[3] = Pit.new(width-75, height-75)
+
 def dist(x1, y1, x2, y2)
   x_diff = (x1-x2) ** 2
   y_diff = (y1-y2) ** 2
@@ -53,7 +70,11 @@ balls = []
     if (dist(cue.x, cue.y, ballX, ballY) < 40)
       overlap = true
     end
-
+    pits.each do |pit|
+      if (dist(pit.x, pit.y, ballX, ballY) < 40)
+        overlap = true
+      end
+    end
   end while overlap==true
 
   balls << Ball.new(ballX, ballY)
