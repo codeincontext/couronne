@@ -25,6 +25,10 @@ var balls = new Array();
 function init(){
   context = myCanvas.getContext('2d');
 }
+function shoot(vx, vy){
+  cue.vx = vx;
+  cue.vy = vy;
+}
 function tick(){
   draw();
   cue.move();
@@ -109,10 +113,12 @@ $('canvas').mouseup(function(e){
     my = e.pageY - offset.top
     calculateCuePull();
 
-    var dx = cue.x-mx;
-    var dy = cue.y-my;
-    cue.vx = (dx*cueSpeedMultiplier);
-    cue.vy = (dy*cueSpeedMultiplier);
+    var distX = cue.x-mx;
+    var distY = cue.y-my;
+    var vx = (distX*cueSpeedMultiplier);
+    var vy = (distY*cueSpeedMultiplier);
+    send(vx + '/' +vy);
+    shoot(vx, vy);
   }
   shooting=false;
 });
