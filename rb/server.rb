@@ -29,9 +29,16 @@ EventMachine.run do
         # player = Player.new
         player = Player.new(socket)
         @players << player
-        game = Game.new(player)
-        @games << game
-        socket.send({:balls=>game.balls}.to_json)
+        if @games.empty?
+          game = Game.new(player)
+          @games << game
+        else
+          game = @games.first
+          game.players << player
+        end
+        socket.send({:balls=>game.balls, :cue=>game.cue}.to_json)
+        
+          puts @games.first.players.count
       rescue Exception => e
           puts e.inspect
           puts e.backtrace
@@ -39,24 +46,30 @@ EventMachine.run do
     end
     socket.onmessage do |mess|
       puts "move received"
+      puts "socket in #{socket.object_id}"
       array = mess.split '/'
-      # puts array
-      player = @players.find{|p| p.socket = socket }
-      game = @games.find{|g| g.players.include? player }
-      # game.move(socket, array[0], array[1])
-      game.other_players(player).each do |s|
-        s.send mess
+
+      player = @players.find{|p| p.socket == socket }
+      # game = @games.find{|g| g.players.include? player }
+      game = @games.first
+
+      game.cue.vx = array[0]
+      game.cue.vy = array[1]
+      # # game.move(player, array[0], array[1])
+      game.other_players(player).each do |p|
+        p.socket.send({:cue=>game.cue}.to_json)
+        puts "socket out #{p.socket.object_id}"
       end
     end
     socket.onclose do
-      # puts @games.inspect
-      # player = @players.find{|p| p.socket = socket }
-      # game = @games.find{|g| g.players.include player}
-      # game.players.delete player
-      # @players.delete player
+      player = @players.find{|p| p.socket = socket }
+      game = @games.find{|g| g.players.include? player}
+      game.players.delete player
+      @players.delete player
       puts 'user left'
+      puts @games.first.players.count
     end
   end
   
-  `open /Users/skattyadz/code/couronne/game.html`
+  # `open /Users/skattyadz/code/couronne/game.html`
 end

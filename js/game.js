@@ -1,4 +1,4 @@
-var cue = new Cue(100,100);
+var cue = new Cue(-100,-100);
 
 var context;
 var mx;
@@ -101,16 +101,16 @@ function dist(x, y, X, Y){
 }
 
 $('canvas').mousedown(function(e){
-  mx = e.pageX - offset.left
-  my = e.pageY - offset.top
-  if (dist(mx,my, cue.x, cue.y) < 20){
+  mx = e.pageX - offset.left - 10
+  my = e.pageY - offset.top - 10
+  if (dist(mx,my, cue.x, cue.y) < 40){
     shooting = true;
   }
 });
 $('canvas').mouseup(function(e){
   if (shooting){
-    mx = e.pageX - offset.left
-    my = e.pageY - offset.top
+    mx = e.pageX - offset.left - 10
+    my = e.pageY - offset.top - 10
     calculateCuePull();
 
     var distX = cue.x-mx;

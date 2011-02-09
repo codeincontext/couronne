@@ -1,4 +1,5 @@
 var socket;
+var gotBalls = false;
 
 function setup(){
   connect();
@@ -18,10 +19,14 @@ function connect(){
   socket = new WebSocket('ws://127.0.0.1:8080');
   socket.onmessage = function(mess) {
     var data = $.parseJSON(mess.data);
-    console.log(data);
-    balls = data['balls'];
+    if(data['balls']){
+      balls = data['balls'];
+      cue.x = data['cue'].x;
+      cue.y = data['cue'].y;
+    }
+    cue.vx = data['cue'].vx;
+    cue.vy = data['cue'].vy;
   };
-
 };
 
 window.onload += setup();
