@@ -100,14 +100,14 @@ function dist(x, y, X, Y){
   return dist1;
 }
 
-$('canvas').mousedown(function(e){
+$('#gameArea').mousedown(function(e){
   mx = e.pageX - offset.left - 10
   my = e.pageY - offset.top - 10
   if (dist(mx,my, cue.x, cue.y) < 40){
     shooting = true;
   }
 });
-$('canvas').mouseup(function(e){
+$('#gameArea').mouseup(function(e){
   if (shooting){
     mx = e.pageX - offset.left - 10
     my = e.pageY - offset.top - 10
@@ -122,7 +122,7 @@ $('canvas').mouseup(function(e){
   }
   shooting=false;
 });
-$('canvas').mousemove(function(e){
+$('#gameArea').mousemove(function(e){
   mx = e.pageX - offset.left - 10
   my = e.pageY - offset.top - 10
   calculateCuePull();
