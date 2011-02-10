@@ -27,6 +27,24 @@ class Game
     raise unless players.length > 1
   end
 
+  def parseMove
+    self.cue.move
+    balls.each do |ball|
+      moveBall(ball);
+      checkCollision(cue, ball);
+
+      pits.each do |pit|
+        balls.remove ball if pitDeath(pit, ball)
+      end
+      balls.each do |ball2|
+        checkCollision(ball, ball2) if (ball2 != ball)
+      end
+    end
+    pits.each do |pit|
+      cue = Cue.new(300,300) if pitDeath(this, cue)
+    end
+  end
+
   def generate_ball
     ballX = 0
     ballY = 0
