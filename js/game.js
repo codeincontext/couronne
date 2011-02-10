@@ -12,10 +12,10 @@ var width = 500;
 var height = 500;
 
 var pits = new Array();
-pits[0] = new Pit(75,75)
-pits[1] = new Pit(width-75, 75)
-pits[2] = new Pit(75, height-75)
-pits[3] = new Pit(width-75, height-75)
+pits[0] = new Pit(75,75);
+pits[1] = new Pit(width-75, 75);
+pits[2] = new Pit(75, height-75);
+pits[3] = new Pit(width-75, height-75);
 
 var balls = new Array();
 
@@ -65,6 +65,15 @@ function draw(){
     context.fill();
   });
 
+  $.each(balls, function(){
+    ball = this;
+    context.beginPath();
+    context.fillStyle="#00ff00";
+    context.arc(ball.x,ball.y,20,0,Math.PI*2,true);
+    context.closePath();
+    context.fill();
+  });
+
   if (shooting) {
     context.strokeStyle = '#f00';
     context.lineWidth   = 10;
@@ -76,15 +85,6 @@ function draw(){
     context.stroke();
     context.closePath();
   }
-
-  $.each(balls, function(){
-    ball = this;
-    context.beginPath();
-    context.fillStyle="#00ff00";
-    context.arc(ball.x,ball.y,20,0,Math.PI*2,true);
-    context.closePath();
-    context.fill();
-  });
 
   context.beginPath();
   context.fillStyle="#0000ff";
