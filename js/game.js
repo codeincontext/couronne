@@ -49,7 +49,7 @@ function tick(){
   });
   $.each(pits, function(){
     if (pitDeath(this, cue)) {
-      cue = null;
+      cue = new Cue(300,300);
     };
   });
 }
