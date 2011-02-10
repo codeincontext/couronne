@@ -55,7 +55,6 @@ class Game
   end
 
   def other_players(player)
-    r = players.reject{|p| p==player}
-    r
+    players.reject{|p| p==player}
   end
 end

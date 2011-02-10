@@ -37,8 +37,6 @@ EventMachine.run do
           game.players << player
         end
         socket.send({:balls=>game.balls, :cue=>game.cue}.to_json)
-        
-          puts @games.first.players.count
       rescue Exception => e
           puts e.inspect
           puts e.backtrace
@@ -67,7 +65,6 @@ EventMachine.run do
       game.players.delete player
       @players.delete player
       puts 'user left'
-      puts @games.first.players.count
     end
   end
   
