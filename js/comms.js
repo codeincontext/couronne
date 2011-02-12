@@ -18,6 +18,7 @@ function send(string){
 function connect(){
   socket = new WebSocket('ws://127.0.0.1:8080');
   socket.onmessage = function(mess) {
+    $('#loading').hide();
     var data = $.parseJSON(mess.data);
     if(data['balls']){
       balls = data['balls'];
