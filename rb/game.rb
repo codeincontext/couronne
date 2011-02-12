@@ -87,4 +87,10 @@ class Game
   def other_players(player)
     players.reject{|p| p==player}
   end
+
+  def to_json(*a){
+      :balls=>balls,
+      :cue=>cue
+    }.to_json(*a)
+  end
 end
