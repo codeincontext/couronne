@@ -51,13 +51,16 @@ EventMachine.run do
       # game = @games.find{|g| g.players.include? player }
       game = @games.first
 
-      game.cue.vx = array[0]
-      game.cue.vy = array[1]
+      game.cue.vx = array[0].to_f
+      game.cue.vy = array[1].to_f
       # # game.move(player, array[0], array[1])
       game.other_players(player).each do |p|
         p.socket.send({:cue=>game.cue}.to_json)
         puts "socket out #{p.socket.object_id}"
       end
+      game.parseMove
+      game.cue.vx=0
+      game.cue.vy=0
     end
     socket.onclose do
       player = @players.find{|p| p.socket = socket }

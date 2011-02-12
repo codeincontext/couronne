@@ -28,21 +28,23 @@ class Game
   end
 
   def parseMove
-    self.cue.move
-    balls.each do |ball|
-      moveBall(ball);
-      checkCollision(cue, ball);
+    begin
+      self.cue.move
+      balls.each do |ball|
+        ball.move
+        ball.checkCollision cue
 
+        pits.each do |pit|
+          balls.delete ball if pit.munch ball
+        end
+        balls.each do |ball2|
+          ball.checkCollision ball2 if (ball2 != ball)
+        end
+      end
       pits.each do |pit|
-        balls.remove ball if pitDeath(pit, ball)
+        self.cue = Cue.new if pit.munch cue
       end
-      balls.each do |ball2|
-        checkCollision(ball, ball2) if (ball2 != ball)
-      end
-    end
-    pits.each do |pit|
-      cue = Cue.new(300,300) if pitDeath(this, cue)
-    end
+    end while cue.vx != 0 or cue.vy != 0
   end
 
   def generate_ball
