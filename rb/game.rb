@@ -44,7 +44,7 @@ class Game
         end
       end
       pits.each do |pit|
-        cue.initialize if pit.munch cue
+        cue.reset if pit.munch cue
       end
     end while balls_moving?
   end
