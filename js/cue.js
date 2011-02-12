@@ -5,7 +5,7 @@ function Cue (x, y) {
   this.vy = 0;
   this.move=move;
   function move(){
-    friction = 0.99
+    var friction = 0.99
     this.vx *= friction;
     this.vy *= friction;
     if (this.vy < 0.1 && this.vy > -0.1 && this.vx < 0.1 && this.vx > -0.1) {this.vx = 0; this.vy = 0;}
