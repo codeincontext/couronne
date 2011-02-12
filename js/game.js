@@ -1,10 +1,13 @@
 var cue = new Cue(-100,-100);
 
+
+var animating = false;
+
 var context;
 var mx;
 var my;
 var offset = $('canvas').offset();
-var shooting = false;
+var aiming = false;
 var maxCuePull = 125;
 var cueSpeedMultiplier = 0.08;
 
@@ -28,30 +31,35 @@ function init(){
 function shoot(vx, vy){
   cue.vx = vx;
   cue.vy = vy;
+  animating = true;
 }
 function tick(){
-  draw();
-  cue.move();
-  $.each(balls, function(){
-    var ball = this;
-    moveBall(ball);
-    checkCollision(cue, ball);
+  if (animating || aiming || true){
+    draw();
+  }
+  if (animating){
+    cue.move();
+    $.each(balls, function(){
+      var ball = this;
+      moveBall(ball);
+      checkCollision(cue, ball);
     
+      $.each(pits, function(){
+        if (pitDeath(this, ball)) {
+          var i = balls.indexOf(ball);
+          if(i != -1) balls.splice(i, 1);
+        };
+      });
+      $.each(balls, function(){
+        if (this != ball) checkCollision(this, ball);
+      });
+    });
     $.each(pits, function(){
-      if (pitDeath(this, ball)) {
-        var i = balls.indexOf(ball);
-        if(i != -1) balls.splice(i, 1);
+      if (pitDeath(this, cue)) {
+        cue = new Cue(300,300);
       };
     });
-    $.each(balls, function(){
-      if (this != ball) checkCollision(this, ball);
-    });
-  });
-  $.each(pits, function(){
-    if (pitDeath(this, cue)) {
-      cue = new Cue(300,300);
-    };
-  });
+  }
 }
 function draw(){
   context.clearRect(0,0, width,height);
@@ -74,7 +82,7 @@ function draw(){
     context.fill();
   });
 
-  if (shooting) {
+  if (aiming) {
     context.strokeStyle = '#f00';
     context.lineWidth   = 10;
 
@@ -104,11 +112,11 @@ $('#gameArea').mousedown(function(e){
   mx = e.pageX - offset.left - 10
   my = e.pageY - offset.top - 10
   if (dist(mx,my, cue.x, cue.y) < 40){
-    shooting = true;
+    aiming = true;
   }
 });
 $('#gameArea').mouseup(function(e){
-  if (shooting){
+  if (aiming){
     mx = e.pageX - offset.left - 10
     my = e.pageY - offset.top - 10
     calculateCuePull();
@@ -120,7 +128,7 @@ $('#gameArea').mouseup(function(e){
     send(vx + '/' +vy);
     shoot(vx, vy);
   }
-  shooting=false;
+  aiming=false;
 });
 $('#gameArea').mousemove(function(e){
   mx = e.pageX - offset.left - 10
