@@ -26,25 +26,35 @@ class Game
   def add_player(player)
     raise unless players.length > 1
   end
+  def balls_and_cue
+    balls | [cue]
+  end
 
   def parseMove
     begin
       self.cue.move
       balls.each do |ball|
         ball.move
-        ball.checkCollision cue
 
         pits.each do |pit|
           balls.delete ball if pit.munch ball
         end
-        balls.each do |ball2|
+        balls_and_cue.each do |ball2|
           ball.checkCollision ball2 if (ball2 != ball)
         end
       end
       pits.each do |pit|
-        self.cue = Cue.new if pit.munch cue
+        cue.initialize if pit.munch cue
       end
-    end while cue.vx != 0 or cue.vy != 0
+    end while balls_moving?
+  end
+
+  def balls_moving?
+    moving = false
+    balls_and_cue.each do |ball|
+      moving = true if ball.vx != 0 or ball.vy != 0
+    end
+    moving
   end
 
   def generate_ball
