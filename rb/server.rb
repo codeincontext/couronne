@@ -36,7 +36,7 @@ EventMachine.run do
           game = @games.first
           game.players << player
         end
-        socket.send(game.to_json)
+        socket.send game.to_json('init')
       rescue Exception => e
         puts e.inspect
         puts e.backtrace
@@ -45,7 +45,7 @@ EventMachine.run do
     socket.onmessage do |mess|
       begin
         puts "move received"
-        puts "socket in #{socket.object_id}"
+        puts "move in #{socket.object_id}"
         array = mess.split '/'
 
         player = @players.find{|p| p.socket == socket }
@@ -56,13 +56,13 @@ EventMachine.run do
         game.cue.vy = array[1].to_f
         # # game.move(player, array[0], array[1])
         game.other_players(player).each do |p|
-          p.socket.send({:cue=>game.cue}.to_json)
-          puts "socket out #{p.socket.object_id}"
+          p.socket.send({:cue=>game.cue, :type=>'move'}.to_json)
+          puts "move out #{p.socket.object_id}"
         end
         game.parseMove
         game.players.each do |p|
-          p.socket.send(game.to_json)
-          puts "socket out #{p.socket.object_id}"
+          p.socket.send game.to_json('sync')
+          puts "sync out #{p.socket.object_id}"
         end
       rescue Exception => e
         puts e.inspect

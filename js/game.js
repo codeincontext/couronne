@@ -1,7 +1,7 @@
 var cue = new Cue(-100,-100);
 
-
 var animating = false;
+var data
 
 var context;
 var mx;
@@ -53,13 +53,27 @@ function tick(){
       $.each(balls, function(){
         if (this != ball) checkCollision(this, ball);
       });
-    });
-    $.each(pits, function(){
-      if (pitDeath(this, cue)) {
-        cue = new Cue(300,300);
-      };
+      if (!balls_moving){
+        animating = false;
+        if (data){
+          balls = data['balls'];
+          cue.x = data['cue'].x;
+          cue.y = data['cue'].y;
+          cue.vx = data['cue'].vx;
+          cue.vy = data['cue'].vy;
+          data = null;
+        }
+      }
     });
   }
+}
+function balls_moving(){
+  var moving = false;
+  $.each(balls, function(){
+    if (this.vx != 0 || this.vy != 0) moving = true;
+  });
+  if (cue.vx != 0 || cue.vy != 0) moving = true;
+  return moving;
 }
 function draw(){
   context.clearRect(0,0, width,height);

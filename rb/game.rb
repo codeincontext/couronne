@@ -88,9 +88,13 @@ class Game
     players.reject{|p| p==player}
   end
 
-  def to_json(*a){
+  def to_json(type, *a)
+    # cue1 = cue
+    # cue1.x = 100
+    {
       :balls=>balls,
-      :cue=>cue
+      :cue=>cue,
+      :type=>type
     }.to_json(*a)
   end
 end
