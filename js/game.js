@@ -38,12 +38,19 @@ function tick(){
     draw();
   }
   if (animating){
+    console.log('animating');
     cue.move();
     $.each(balls, function(){
       var ball = this;
       moveBall(ball);
       checkCollision(cue, ball);
-    
+
+      $.each(pits, function(){
+        if (pitDeath(this, cue)) {
+          cue = new Cue(300,300);
+        };
+      });
+
       $.each(pits, function(){
         if (pitDeath(this, ball)) {
           var i = balls.indexOf(ball);
@@ -53,18 +60,19 @@ function tick(){
       $.each(balls, function(){
         if (this != ball) checkCollision(this, ball);
       });
-      if (!balls_moving){
-        animating = false;
-        if (data){
-          balls = data['balls'];
-          cue.x = data['cue'].x;
-          cue.y = data['cue'].y;
-          cue.vx = data['cue'].vx;
-          cue.vy = data['cue'].vy;
-          data = null;
-        }
-      }
     });
+    if (!balls_moving()){
+      animating = false;
+      if (data){
+        console.log('Apply sync');
+        balls = data['balls'];
+        cue.x = data['cue'].x;
+        cue.y = data['cue'].y;
+        cue.vx = data['cue'].vx;
+        cue.vy = data['cue'].vy;
+        data = null;
+      }
+    }
   }
 }
 function balls_moving(){
