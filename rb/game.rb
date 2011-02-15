@@ -21,7 +21,8 @@ class Game
     pits << Pit.new(Game::width-75, Game::height-75)
     
     self.cue = Cue.new
-    10.times {generate_ball}
+    7.times {generate_ball(true)}
+    7.times {generate_ball(false)}
   end
   def add_player(player)
     raise unless players.length > 1
@@ -60,7 +61,7 @@ class Game
     balls.empty?
   end
 
-  def generate_ball
+  def generate_ball(red)
     ballX = 0
     ballY = 0
     overlap = false
@@ -84,7 +85,7 @@ class Game
       end
     end while overlap==true
 
-    balls << Ball.new(ballX, ballY)
+    balls << Ball.new(ballX, ballY, red)
   end
 
   def other_players(player)

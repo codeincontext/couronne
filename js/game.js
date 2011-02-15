@@ -97,7 +97,7 @@ function draw(){
   $.each(balls, function(){
     ball = this;
     context.beginPath();
-    context.fillStyle="#00ff00";
+    context.fillStyle = (ball.red ? "#ff0000" : "#00ff00");
     context.arc(ball.x,ball.y,20,0,Math.PI*2,true);
     context.closePath();
     context.fill();

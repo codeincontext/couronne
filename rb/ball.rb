@@ -1,10 +1,11 @@
 class Ball
-  attr_accessor :x, :y, :vx, :vy
-  def initialize(x, y)
+  attr_accessor :x, :y, :vx, :vy, :red
+  def initialize(x, y, red)
     self.x = x
     self.y = y
     self.vx = 0
     self.vy = 0
+    self.red = red
   end
   def move
     friction = 0.99
@@ -48,7 +49,8 @@ class Ball
       :x=>x,
       :y=>y,
       :vx=>vx,
-      :vy=>vy
+      :vy=>vy,
+      :red=>red
     }.to_json(*a)
   end
 end
