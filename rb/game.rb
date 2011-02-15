@@ -56,6 +56,9 @@ class Game
     end
     moving
   end
+  def ended?
+    balls.empty?
+  end
 
   def generate_ball
     ballX = 0

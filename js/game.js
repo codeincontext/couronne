@@ -38,7 +38,6 @@ function tick(){
     draw();
   }
   if (animating){
-    console.log('animating');
     cue.move();
     $.each(balls, function(){
       var ball = this;
@@ -47,7 +46,7 @@ function tick(){
 
       $.each(pits, function(){
         if (pitDeath(this, cue)) {
-          cue = new Cue(300,300);
+          cue = new Cue(-100,-100);
         };
       });
 
