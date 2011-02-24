@@ -22,7 +22,7 @@ end
 @games = []
 @players = []
 EventMachine.run do
-  EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 8080) do |socket|
+  EventMachine::WebSocket.start(:host => '0.0.0.0', :port => 80) do |socket|
     socket.onopen do
       begin
         player = Player.new(socket)
