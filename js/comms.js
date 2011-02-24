@@ -11,7 +11,7 @@ function send(string){
 }
 
 function connect(){
-  socket = new WebSocket('ws://127.0.0.1:8080');
+  socket = new WebSocket('ws://89.105.122.152:80');
   socket.onmessage = function(mess) {
     $('#loading').hide();
     data = $.parseJSON(mess.data);
