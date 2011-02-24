@@ -4,11 +4,6 @@ var gotBalls = false;
 function setup(){
   connect();
   setInterval(tick,10);
-
-  $(document).keypress(function(e){
-    var char = String.fromCharCode(e.keyCode);
-    socket.send(char);
-  });
 };
 
 function send(string){
