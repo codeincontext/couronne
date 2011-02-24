@@ -92,8 +92,6 @@ class Game
   end
 
   def to_json(type, *a)
-    # cue1 = cue
-    # cue1.x = 100
     {
       :balls=>balls,
       :cue=>cue,
